@@ -3,9 +3,9 @@
 # variables
 storage="${HOME}/.local/share/zsh-notes-storage/notes.txt"
 
-alias nd='add_note'     # using function
+alias na='add_note'    # using function
 alias nls='list_notes'  # using function
-alias nrm='remove_note' # using function
+alias nd='delete_note' # using function
 
 alias nt='main'         # using arguments
 
@@ -30,7 +30,7 @@ add_note() {
     echo "Error: $storage is not writable. Change the permissions manually."
   else
     note=""
-    echo -n "Enter a Note: "
+    echo -n "Note: "
     read note
     echo "$note" >> "$storage"
   fi
@@ -48,12 +48,12 @@ list_notes() {
   fi
 }
 
-remove_note() {
+delete_note() {
   if [ ! -f $storage ]; then # check if storage exists
     touch $storage
   else
     note_number=""
-    echo -n "Enter the note number to remove: "
+    echo -n "Note number: "
     read note_number
     # explanation: sed -i (inplace) "${note_number}d" (delete line)
     sed -i "${note_number}d" $storage
@@ -69,11 +69,11 @@ main() {
     -l)
       list_notes
       ;;
-    -r)
-      remove_note
+    -d)
+      delete_note
       ;;
     *)
-      echo "Usage: note {-a add |-l list |-r remove}"
+      echo "Usage: note {-a add |-l list |-d delete}"
       ;;
   esac
 }
