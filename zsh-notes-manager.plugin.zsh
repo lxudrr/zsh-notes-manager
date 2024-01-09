@@ -55,8 +55,12 @@ delete_note() {
     note_number=""
     echo -n "Note number: "
     read note_number
-    # explanation: sed -i (inplace) "${note_number}d" (delete line)
-    sed -i "${note_number}d" $storage
+    if [ -z "$note_number" ] || ! [[ "$note_number" =~ ^[0-9]+$ ]]; then
+      echo "Error!"
+    else
+      # explanation: sed -i (inplace) "${note_number}d" (delete line)
+      sed -i "${note_number}d" $storage
+    fi
   fi
 }
 
