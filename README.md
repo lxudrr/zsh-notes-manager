@@ -1,1 +1,1 @@
-# zsh-notes-storage
+# zsh-notes-manager
