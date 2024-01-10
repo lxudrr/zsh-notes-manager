@@ -4,15 +4,14 @@
 storage="${HOME}/.local/share/zsh-notes-storage/notes.txt"
 
 alias na='add_note'    # using function
-alias nls='list_notes'  # using function
+alias nls='list_notes' # using function
 alias nd='delete_note' # using function
 
-alias nt='main'         # using arguments
 
 
 # check if the folder and file exist
 check() {
-  storage_dir="$(dirname "$storage")"
+  local storage_dir="$(dirname "$storage")"
   if [ ! -d "$storage_dir" ]; then
     mkdir -p "$storage_dir"
   fi
@@ -29,10 +28,12 @@ add_note() {
   if [ ! -w $storage ]; then
     echo "Error: $storage is not writable. Change the permissions manually."
   else
-    note=""
-    echo -n "Note: "
-    read note
-    echo "$note" >> "$storage"
+    local note="$*"
+    if [ -z "$note" ]; then
+      echo "Error: No content provided."
+    else
+      echo "$note" >> "$storage"
+    fi
   fi
 }
 
@@ -49,35 +50,21 @@ list_notes() {
 }
 
 delete_note() {
-  if [ ! -f $storage ]; then # check if storage exists
-    touch $storage
+  check
+
+  if [ ! -w $storage ]; then
+    echo "Error: $storage is not writable. Change the permissions manually."
   else
-    note_number=""
-    echo -n "Note number: "
-    read note_number
-    if [ -z "$note_number" ] || ! [[ "$note_number" =~ ^[0-9]+$ ]]; then
-      echo "Error!"
-    else
-      # explanation: sed -i (inplace) "${note_number}d" (delete line)
-      sed -i "${note_number}d" $storage
-    fi
+    local number_notes=($*)
+    local counter_deleted_notes=0
+    for i in ${number_notes}; do
+      if ! [[ "$i" =~ ^[0-9]+$ ]]; then
+        echo "Error: Must be a number."
+      else
+        # explanation: sed -i (inplace) "${number_notes}d" (delete line)
+        sed -i "$((i-counter_deleted_notes))d" $storage
+        ((counter_deleted_notes+=1))
+      fi
+    done
   fi
-}
-
-
-main() {
-  case "$1" in
-    -a)
-      add_note
-      ;;
-    -l)
-      list_notes
-      ;;
-    -d)
-      delete_note
-      ;;
-    *)
-      echo "Usage: note {-a add |-l list |-d delete}"
-      ;;
-  esac
 }
