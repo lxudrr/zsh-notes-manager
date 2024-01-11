@@ -1,7 +1,7 @@
 # zsh_notes_storage from terminal
 
 # variables
-storage="${HOME}/.local/share/zsh-notes-storage/notes.txt"
+storage="${HOME}/.local/share/zsh-notes-manager/notes.txt"
 
 alias na='add_note'    # using function
 alias nls='list_notes' # using function

@@ -33,4 +33,4 @@ You can customize the aliases to your preference by editing the `zsh-notes-manag
 
 ## Note Storage
 
-Your notes are saved in the file `~/.local/share/zsh-notes-storage/notes.txt`. You can change this storage location by editing the `zsh-notes-manager.plugin.zsh` file as mentioned above.
+Your notes are saved in the file `~/.local/share/zsh-notes-manager/notes.txt`. You can change this storage location by editing the `zsh-notes-manager.plugin.zsh` file as mentioned above.
