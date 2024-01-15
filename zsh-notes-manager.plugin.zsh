@@ -56,12 +56,15 @@ delete_note() {
     echo "Error: $storage is not writable. Change the permissions manually."
   else
     local number_notes=($*)
+    local sorted_array=($(printf "%s\n" "${number_notes[@]}" | sort))
+    local max_number=$(wc -l < $storage)
     local counter_deleted_notes=0
-    for i in ${number_notes}; do
-      if ! [[ "$i" =~ ^[0-9]+$ ]]; then
-        echo "Error: Must be a number."
+
+    for i in ${sorted_array}; do
+      if ! [[ $i =~ ^[0-9]+$ ]] || [ $i -gt $max_number ] || [ $i -le 0 ] ; then
+        continue
       else
-        # explanation: sed -i (inplace) "${number_notes}d" (delete line)
+        # explanation: sed -i (inplace) "${sorted_array}d" (delete line)
         sed -i "$((i-counter_deleted_notes))d" $storage
         ((counter_deleted_notes+=1))
       fi
