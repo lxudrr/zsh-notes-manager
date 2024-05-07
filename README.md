@@ -1,4 +1,8 @@
-# zsh-notes-manager
+# Status
+
+The project is deprecated and no longer supported.
+
+## zsh-notes-manager
 
 The zsh-notes-manager plugin offers an easy and efficient way to store short, important notes right from the terminal. It's primarily designed for saving those essential terminal commands that are hard to remember, making this plugin an ideal solution for quick recall.
 
